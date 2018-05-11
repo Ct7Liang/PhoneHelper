@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.RingtoneManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.View;
@@ -29,6 +30,7 @@ public class SetRingtoneActivity extends BaseActivity implements SeekBar.OnSeekB
     private TextView tvIsShake;
     private SeekBar sbRingTong;
     private AudioManager mAudioManager;
+    private TextView ringToneName;
 
     @Override
     public int setLayout() {
@@ -44,6 +46,7 @@ public class SetRingtoneActivity extends BaseActivity implements SeekBar.OnSeekB
         sIsShake = (Switch) findViewById(R.id.switch_isShake);
         tvIsShake = (TextView) findViewById(R.id.tv_isShake);
         sbRingTong = (SeekBar) findViewById(R.id.sb_ringTong);
+        ringToneName = (TextView) findViewById(R.id.tv_ringtone_name);
     }
 
     @Override
@@ -92,7 +95,7 @@ public class SetRingtoneActivity extends BaseActivity implements SeekBar.OnSeekB
         mAudioManager.setStreamVolume(AudioManager.STREAM_RING, progress, AudioManager.FLAG_PLAY_SOUND);  //调整时显示音量条
 //        mAudioManager.setStreamVolume(AudioManager.STREAM_RING, progress, AudioManager.FLAG_SHOW_UI);  //调整时显示音量条
 //        mAudioManager.setStreamVolume(AudioManager.STREAM_RING, progress, AudioManager.FLAG_PLAY_SOUND);  //调整音量时播放声音, 0表示什么也没有
-        seekBar.setProgress(progress);
+//        seekBar.setProgress(progress);
         if (progress==0){
             sIsMute.setChecked(false);
 //            mAudioManager.setStreamMute(AudioManager.STREAM_RING, true); //设置为静音模式
@@ -168,6 +171,7 @@ public class SetRingtoneActivity extends BaseActivity implements SeekBar.OnSeekB
                 tvIsShake.setText("响铃时震动已开启");
                 tvIsShake.setTextColor(Color.parseColor("#2F2F2F"));
             }
+            ringToneName.setText(RingtoneManager.getRingtone(this, Settings.System.DEFAULT_RINGTONE_URI).getTitle(this));
         }
     }
 
@@ -220,5 +224,4 @@ public class SetRingtoneActivity extends BaseActivity implements SeekBar.OnSeekB
 //            list.add(cursor.getString(1));
 //        }
     }
-
 }
